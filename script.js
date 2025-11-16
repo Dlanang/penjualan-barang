@@ -63,7 +63,6 @@ class Utils {
     try {
       return document.querySelector(selector);
     } catch (error) {
-      console.error(`Error selecting element: ${selector}`, error);
       return null;
     }
   }
@@ -91,8 +90,6 @@ class BaseModule {
    * @param {boolean} success - Whether initialization was successful
    */
   logInitialization(success) {
-    const status = success ? '✅' : '❌';
-    console.log(`${status} ${this.name} ${success ? 'initialized' : 'failed'}`);
     this.initialized = success;
   }
 }
@@ -114,7 +111,6 @@ class AnimationController extends BaseModule {
       this.setupStickyNavigation();
       this.logInitialization(true);
     } catch (error) {
-      console.error('Animation initialization failed:', error);
       this.logInitialization(false);
     }
   }
@@ -199,11 +195,9 @@ class ProductFilter extends BaseModule {
       this.attachEventListeners();
       this.logInitialization(true);
     } catch (error) {
-      console.error('Filter initialization failed:', error);
       this.logInitialization(false);
     }
   }
-
   cacheElements() {
     this.filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
     this.productItems = Array.from(document.querySelectorAll('.menu-item'));
@@ -259,7 +253,6 @@ class ShoppingCart extends BaseModule {
       this.render();
       this.logInitialization(true);
     } catch (error) {
-      console.error('Cart initialization failed:', error);
       this.logInitialization(false);
     }
   }
@@ -323,13 +316,25 @@ class ShoppingCart extends BaseModule {
     if (!productElement) return;
 
     const product = this.extractProductData(productElement);
+    
+    // Validasi harga
+    if (product.price <= 0) {
+      alert('Mohon masukkan harga produk terlebih dahulu!');
+      const priceInput = productElement.querySelector('.price-input');
+      priceInput?.focus();
+      return;
+    }
+
     this.addItem(product);
   }
 
   extractProductData(productElement) {
+    const priceInput = productElement.querySelector('.price-input');
+    const priceValue = priceInput ? parseInt(priceInput.value) || 0 : 0;
+    
     return {
       name: productElement.querySelector('h3')?.textContent || 'Unknown',
-      price: 0,
+      price: priceValue,
       image: productElement.querySelector('img')?.src || '',
       quantity: 1
     };
@@ -392,13 +397,20 @@ class ShoppingCart extends BaseModule {
 
   generateWhatsAppMessage() {
     let message = '*PESANAN FURNITURE CAFE*\n\n';
+    let totalAmount = 0;
 
     this.items.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      totalAmount += itemTotal;
+      
       message += `${index + 1}. ${item.name}\n`;
-      message += `   Jumlah: ${item.quantity} unit\n\n`;
+      message += `   Jumlah: ${item.quantity} unit\n`;
+      message += `   Harga: ${Utils.formatCurrency(item.price)}\n`;
+      message += `   Subtotal: ${Utils.formatCurrency(itemTotal)}\n\n`;
     });
 
-    message += '\nMohon info harga dan ketersediaan produk. Terima kasih!';
+    message += `*TOTAL: ${Utils.formatCurrency(totalAmount)}*\n\n`;
+    message += 'Mohon konfirmasi ketersediaan dan proses pemesanan. Terima kasih!';
     return message;
   }
 
@@ -410,6 +422,7 @@ class ShoppingCart extends BaseModule {
   render() {
     this.renderCartList();
     this.updateBadge();
+    this.updateTotal();
     this.updateEmptyState();
   }
 
@@ -427,15 +440,21 @@ class ShoppingCart extends BaseModule {
   createCartItemElement(item, index) {
     const li = document.createElement('li');
     li.className = 'cart-item';
+    
+    const totalPrice = item.price * item.quantity;
+    const formattedPrice = Utils.formatCurrency(totalPrice);
+    
     li.innerHTML = `
       <img src="${item.image}" alt="${item.name}" class="cart-thumb" />
-      <span class="cart-item-name" title="Lihat detail">${item.name}</span>
-      <div class="cart-item-controls">
-        <button class="decrease" aria-label="Kurangi jumlah">-</button>
-        <span class="cart-item-qty">${item.quantity}</span>
-        <button class="increase" aria-label="Tambah jumlah">+</button>
+      <div class="cart-item-info">
+        <span class="cart-item-name" title="Lihat detail">${item.name}</span>
+        <span class="cart-item-price">${formattedPrice}</span>
       </div>
-      <span class="cart-item-price">${item.quantity} unit</span>
+      <div class="cart-item-controls">
+        <button class="qty-btn decrease" aria-label="Kurangi jumlah">−</button>
+        <span class="cart-item-qty">${item.quantity}</span>
+        <button class="qty-btn increase" aria-label="Tambah jumlah">+</button>
+      </div>
     `;
 
     this.attachItemEventListeners(li, item, index);
@@ -471,6 +490,13 @@ class ShoppingCart extends BaseModule {
     this.elements.badge.textContent = totalQuantity.toString();
   }
 
+  updateTotal() {
+    if (!this.elements.total) return;
+
+    const totalAmount = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    this.elements.total.textContent = Utils.formatCurrency(totalAmount);
+  }
+
   updateEmptyState() {
     if (!this.elements.empty) return;
 
@@ -492,13 +518,11 @@ class ImageZoom extends BaseModule {
     try {
       this.cacheElements();
       if (!this.elements.modal) {
-        console.warn('Image zoom modal not found');
         return;
       }
       this.attachEventListeners();
       this.logInitialization(true);
     } catch (error) {
-      console.error('ImageZoom initialization failed:', error);
       this.logInitialization(false);
     }
   }
@@ -572,7 +596,6 @@ class FAQAccordion extends BaseModule {
       this.attachEventListeners();
       this.logInitialization(true);
     } catch (error) {
-      console.error('FAQ initialization failed:', error);
       this.logInitialization(false);
     }
   }
@@ -608,14 +631,12 @@ class SmoothScrollController extends BaseModule {
   init() {
     try {
       if (typeof Lenis === 'undefined') {
-        console.warn('Lenis library not loaded');
         return;
       }
 
       this.initializeLenis();
       this.logInitialization(true);
     } catch (error) {
-      console.error('SmoothScroll initialization failed:', error);
       this.logInitialization(false);
     }
   }
@@ -652,9 +673,8 @@ class Application {
    * Register module for initialization
    * @param {BaseModule} module - Module instance to register
    */
-  registerModule(module) {
+  register(module) {
     if (!(module instanceof BaseModule)) {
-      console.error('Module must extend BaseModule');
       return;
     }
     this.modules.push(module);
@@ -664,19 +684,14 @@ class Application {
    * Initialize all registered modules
    */
   async init() {
-    console.log('🪑 MEJA CAFE PALU - Starting initialization...');
-    console.log('━'.repeat(50));
-
     try {
       this.modules.forEach(module => {
         module.init();
       });
 
       this.initialized = true;
-      console.log('━'.repeat(50));
-      console.log('✅ Application initialized successfully');
     } catch (error) {
-      console.error('❌ Application initialization failed:', error);
+      // Silent fail in production
     }
   }
 
