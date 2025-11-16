@@ -11,7 +11,7 @@
   <!-- Styles -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/WebP" href="assets2/logo/logo.webp"/>
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.11/dist/lenis.css">
   
   <!-- Fonts -->
@@ -30,10 +30,10 @@
         <li><a href="#contact">Contact</a></li>
         <li class="cart-nav">
           <button id="cart-toggle" aria-expanded="false" aria-controls="cart-panel" title="Open cart">
-            <i class="fal fa-shopping-cart cart" aria-hidden="true"></i>
+            <i class="fas fa-shopping-cart cart" aria-hidden="true"></i>
             <span class="cart-count" aria-live="polite">0</span>
           </button>
-          <div class="cart-dropdown" id="cart-panel" role="dialog" aria-label="Shopping Cart">
+          <aside class="cart-dropdown" id="cart-panel" role="dialog" aria-label="Shopping Cart">
             <h4>Your Cart</h4>
             <ul class="cart-list"></ul>
             <p class="cart-empty">Cart is empty</p>
@@ -42,7 +42,7 @@
               <button class="cart-clear" aria-label="Clear cart">Clear</button>
               <button class="cart-checkout" aria-label="Checkout">Checkout</button>
             </div>
-          </div>
+          </aside>
         </li>
       </ul>
     </nav>
@@ -50,10 +50,10 @@
     <div class="hero-text">
       <h1>MEJA CAFE PALU</h1>
       <p>READY STOCK & COSTUM - Melayani pemesanan furniture cafe, set meja kursi & pembuatan cafe/outlet</p>
-      <div style="margin-top: 2rem;">
-        <a href="https://wa.me/6285220888840" target="_blank" style="background: #25D366; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.3s;" onmouseover="this.style.background='#1ebd57'" onmouseout="this.style.background='#25D366'">
-          <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
-          Hubungi Kami via WhatsApp
+      <div class="hero-cta">
+        <a href="https://wa.me/6285220888840" target="_blank" class="whatsapp-btn-hero">
+          <i class="fab fa-whatsapp"></i>
+          <span>Hubungi Kami via WhatsApp</span>
         </a>
       </div>
     </div>
@@ -61,207 +61,218 @@
 
   <!-- Main Content -->
     <main>
-        <!-- Menu Section -->
+        <!-- Product Catalog Section -->
         <section id="menu" class="menu-section">
-            <h2 class="animate-on-scroll">Katalog Produk Kami</h2>
-
-            <!-- Filters -->
-            <div class="menu-filters animate-on-scroll">
+            <h2>Katalog Produk Kami</h2>
+            
+            <!-- Product Filters -->
+            <nav class="menu-filters" aria-label="Product filters">
                 <button class="filter-btn active" data-filter="all">Semua</button>
                 <button class="filter-btn" data-filter="meja">Meja</button>
                 <button class="filter-btn" data-filter="sofa">Sofa</button>
-                <button class="filter-btn" data-filter="set">Set Furniture</button>
-            </div>
+                <button class="filter-btn" data-filter="set">Set</button>
+            </nav>
 
-            <!-- Menu Grid -->
+            <!-- Product Grid -->
             <div class="menu-grid">
-                <!-- Meja Items -->
-                <div class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
+                <!-- Table Products -->
+                <article class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
                     <img src="assets2/meja/4 meja 1 kursi.jpeg" alt="Set 4 Meja 1 Kursi" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Set 4 Meja 1 Kursi</h3>
                         <p>Set lengkap 4 meja dan 1 kursi, cocok untuk cafe minimalis modern. Material berkualitas tinggi dengan finishing rapi.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Set 4 Meja 1 Kursi ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
+                </article>
+                <article class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
                     <img src="assets2/meja/Meja komputer gaming.jpeg" alt="Meja Komputer Gaming" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Meja Komputer Gaming</h3>
                         <p>Meja komputer gaming ergonomis dengan desain modern. Cocok untuk cafe gaming atau workspace area dengan space management optimal.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Meja Komputer Gaming ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
+                </article>
+                <article class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
                     <img src="assets2/meja/Meja konsol.jpeg" alt="Meja Konsol" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Meja Konsol</h3>
                         <p>Meja konsol elegant untuk area resepsionis atau display cafe. Design simpel dengan material premium untuk kesan profesional.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Meja Konsol ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
+                </article>
+                <article class="menu-item animate-on-scroll" data-category="meja" data-price="100000">
                     <img src="assets2/meja/Meja taman.jpeg" alt="Meja Taman" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Meja Taman</h3>
                         <p>Meja outdoor untuk area taman atau teras cafe. Tahan cuaca dengan material yang awet dan design menarik untuk outdoor seating.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Meja Taman ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item animate-on-scroll" data-category="set" data-price="100000">
+                </article>
+                <article class="menu-item animate-on-scroll" data-category="set" data-price="100000">
                     <img src="assets2/set/Coffe table set.jpeg" alt="Coffee Table Set" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Coffee Table Set</h3>
                         <p>Set coffee table lengkap untuk area lounge cafe. Design modern minimalis dengan material berkualitas tinggi.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Coffee Table Set ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
+                </article>
                 
-                <!-- Sofa Items -->
-                <div class="menu-item animate-on-scroll" data-category="sofa" data-price="100000">
+                <!-- Sofa Products -->
+                <article class="menu-item animate-on-scroll" data-category="sofa" data-price="100000">
                     <img src="assets2/sofa/Sofa Esty.jpeg" alt="Sofa Esty" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Sofa Esty</h3>
                         <p>Sofa nyaman dengan design elegant untuk area VIP cafe. Busa premium dengan finishing berkualitas tinggi.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Sofa Esty ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item animate-on-scroll" data-category="sofa" data-price="100000">
+                </article>
+                <article class="menu-item animate-on-scroll" data-category="sofa" data-price="100000">
                     <img src="assets2/sofa/Sofa gucchi 2 seater.jpeg" alt="Sofa Gucchi 2 Seater" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Sofa Gucchi 2 Seater</h3>
                         <p>Sofa 2 seater luxury dengan design modern. Ideal untuk couple seating atau area intimate di cafe Anda.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Sofa Gucchi 2 Seater ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
+                </article>
                 
-                <!-- Set Furniture Items -->
-                <div class="menu-item animate-on-scroll" data-category="set" data-price="100000">
+                <!-- Furniture Set Products -->
+                <article class="menu-item animate-on-scroll" data-category="set" data-price="100000">
                     <img src="assets2/set/Set couple ropan busa.jpeg" alt="Set Couple Ropan Busa" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Set Couple Ropan Busa</h3>
                         <p>Set couple dengan rangka rotan dan busa empuk. Perfect untuk area outdoor atau semi-outdoor cafe dengan konsep natural.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Set Couple Ropan Busa ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                <div class="menu-item animate-on-scroll" data-category="set" data-price="100000">
+                </article>
+                <article class="menu-item animate-on-scroll" data-category="set" data-price="100000">
                     <img src="assets2/set/set elinda.jpeg" alt="Set Elinda" class="menu-item-img">
                     <div class="menu-item-content">
                         <h3>Set Elinda</h3>
                         <p>Set furniture lengkap dengan design minimalis modern. Cocok untuk cafe dengan konsep clean dan elegant.</p>
                         <div class="menu-item-footer">
                             <span class="price">Rp 100.000</span>
-                            <button class="add-to-cart-btn">+</button>
+                            <button class="add-to-cart-btn" aria-label="Tambah Set Elinda ke keranjang">+</button>
                         </div>
                     </div>
-                </div>
-                </div>
+                </article>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-   <footer id="contact" class="site-footer animate-on-scroll">
-    <div class="footer-content">
-      <h2 class="logo">MEJA CAFE PALU</h2>
-      <p style="max-width: 600px; margin: 1rem auto;">Residen 2, Jl. Manunggal, Baliase, Kec. Marawola, Kabupaten Sigi, Sulawesi Tengah 94222</p>
-
-      <!-- Contact Info -->
-      <div style="margin: 2rem 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: center;">
-        <a href="https://wa.me/6285220888840" target="_blank" style="color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem;">
-          <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
-          <span>0852-2088-8840</span>
-        </a>
-        <a href="https://maps.app.goo.gl/MC4zgTFm8gV9GYq17?g_st=aw" target="_blank" style="color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem;">
-          <i class="fas fa-map-marker-alt" style="font-size: 1.5rem;"></i>
-          <span>Lihat Lokasi</span>
-        </a>
-        <a href="https://taplink.cc/mejacafepalu" target="_blank" style="color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 1.1rem;">
-          <i class="fas fa-globe" style="font-size: 1.5rem;"></i>
-          <span>Website</span>
-        </a>
-      </div>
-
+   <footer id="contact" class="site-footer">
       <!-- FAQ Section -->
-      <div class="faq-section" style="max-width: 800px; margin: 3rem auto 2rem; text-align: left;">
-        <h3 style="font-family: var(--header-font); font-size: 2rem; text-align: center; margin-bottom: 2rem; color: var(--primary-color);">Pertanyaan Umum</h3>
-        
-        <details class="faq-item" style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer;">
-          <summary style="font-weight: 600; font-size: 1.1rem; color: var(--accent-color); list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            <span>Apakah produk Meja Cafe Palu ramah lingkungan?</span>
-            <i class="fas fa-chevron-down" style="transition: transform 0.3s;"></i>
-          </summary>
-          <p style="margin-top: 1rem; color: var(--primary-color); line-height: 1.6;">Ya, produk Meja Cafe Palu dibuat dengan bahan berkualitas tinggi yang ramah lingkungan.</p>
+      <section class="faq-section">
+        <h3>Pertanyaan Umum</h3>
+        <details class="faq-item">
+          <summary>Apakah bisa custom design?</summary>
+          <p>Ya, kami melayani custom design sesuai kebutuhan Anda. Konsultasikan desain impian Anda dengan tim kami.</p>
         </details>
-
-        <details class="faq-item" style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer;">
-          <summary style="font-weight: 600; font-size: 1.1rem; color: var(--accent-color); list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            <span>Apakah tersedia opsi kustomisasi untuk meja cafe?</span>
-            <i class="fas fa-chevron-down" style="transition: transform 0.3s;"></i>
-          </summary>
-          <p style="margin-top: 1rem; color: var(--primary-color); line-height: 1.6;">Tentu, Anda dapat meminta kustomisasi sesuai kebutuhan kafe Anda.</p>
+        <details class="faq-item">
+          <summary>Berapa lama waktu pengerjaan?</summary>
+          <p>Waktu pengerjaan bervariasi tergantung kompleksitas pesanan, biasanya 1-2 minggu untuk furniture standar.</p>
         </details>
-
-        <details class="faq-item" style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer;">
-          <summary style="font-weight: 600; font-size: 1.1rem; color: var(--accent-color); list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            <span>Bagaimana cara memesan Meja Cafe Palu?</span>
-            <i class="fas fa-chevron-down" style="transition: transform 0.3s;"></i>
-          </summary>
-          <p style="margin-top: 1rem; color: var(--primary-color); line-height: 1.6;">Anda dapat memesan Meja Cafe Palu melalui website resmi kami atau menghubungi layanan pelanggan kami.</p>
+        <details class="faq-item">
+          <summary>Apakah ada garansi produk?</summary>
+          <p>Ya, semua produk kami memiliki garansi kualitas. Hubungi kami untuk informasi detail garansi.</p>
         </details>
-
-        <details class="faq-item" style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer;">
-          <summary style="font-weight: 600; font-size: 1.1rem; color: var(--accent-color); list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            <span>Berapa lama waktu pengiriman Meja Cafe Palu?</span>
-            <i class="fas fa-chevron-down" style="transition: transform 0.3s;"></i>
-          </summary>
-          <p style="margin-top: 1rem; color: var(--primary-color); line-height: 1.6;">Waktu pengiriman bervariasi bergantung pada lokasi pengiriman, namun biasanya dapat diproses dalam waktu 2-4 minggu.</p>
+        <details class="faq-item">
+          <summary>Apakah melayani pengiriman ke luar kota?</summary>
+          <p>Ya, kami melayani pengiriman ke seluruh Indonesia. Biaya pengiriman disesuaikan dengan lokasi tujuan.</p>
         </details>
-
-        <details class="faq-item" style="margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; cursor: pointer;">
-          <summary style="font-weight: 600; font-size: 1.1rem; color: var(--accent-color); list-style: none; display: flex; justify-content: space-between; align-items: center;">
-            <span>Apakah garansi tersedia untuk Meja Cafe Palu?</span>
-            <i class="fas fa-chevron-down" style="transition: transform 0.3s;"></i>
-          </summary>
-          <p style="margin-top: 1rem; color: var(--primary-color); line-height: 1.6;">Ya, kami memberikan garansi untuk produk Meja Cafe Palu. Silakan hubungi kami untuk informasi lebih lanjut.</p>
+        <details class="faq-item">
+          <summary>Bagaimana cara pemesanan?</summary>
+          <p>Hubungi kami via WhatsApp atau Instagram untuk konsultasi dan pemesanan. Tim kami siap membantu Anda.</p>
         </details>
-      </div>
+      </section>
 
-      <!-- Social Links -->
-      <div class="social-links">
-            <a href="https://www.instagram.com/meja_cafe.plw" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/mejacafepalu" target="_blank" class="social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://taplink.cc/mejacafepalu" target="_blank" class="social-btn" title="Website"><i class="fas fa-link"></i></a>
+      <div class="footer-grid">
+        <!-- Company Info -->
+        <div class="footer-col">
+          <h2 class="logo">MEJA CAFE PALU</h2>
+          <p>READY STOCK & COSTUM - Melayani pemesanan furniture cafe, set meja kursi & pembuatan cafe/outlet</p>
         </div>
 
-    <p class="copyright">
-  &copy; 2025 MEJA CAFE PALU - Furniture Cafe Profesional
-    </p>
-    </div>
+        <!-- Contact Info -->
+        <div class="footer-col">
+          <h3>Hubungi Kami</h3>
+          <address class="footer-address">
+            <p>Residen 2, Jl. Manunggal, Baliase</p>
+            <p>Kec. Marawola, Kab. Sigi</p>
+            <p>Sulawesi Tengah 94222</p>
+          </address>
+          <nav class="contact-info" aria-label="Contact">
+            <a href="https://wa.me/6285220888840" class="contact-link">
+              <i class="fab fa-whatsapp"></i>
+              <span>+62 852-2088-8840</span>
+            </a>
+            <a href="https://www.instagram.com/meja_cafe.plw" class="contact-link" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-instagram"></i>
+              <span>@meja_cafe.plw</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Social Links -->
+        <div class="footer-col">
+          <h3>Media Sosial</h3>
+          <nav class="social-links" aria-label="Social media">
+            <a href="https://www.instagram.com/meja_cafe.plw" target="_blank" class="social-btn instagram" rel="noopener noreferrer" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/mejacafepalu" target="_blank" class="social-btn facebook" rel="noopener noreferrer" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.tiktok.com/@mejacafepalu" target="_blank" class="social-btn tiktok" rel="noopener noreferrer" aria-label="TikTok">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://www.youtube.com/@mejacafepalu" target="_blank" class="social-btn youtube" rel="noopener noreferrer" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://wa.me/6285220888840" target="_blank" class="social-btn whatsapp" rel="noopener noreferrer" aria-label="WhatsApp">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://t.me/mejacafepalu" target="_blank" class="social-btn telegram" rel="noopener noreferrer" aria-label="Telegram">
+              <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="https://twitter.com/mejacafepalu" target="_blank" class="social-btn twitter" rel="noopener noreferrer" aria-label="Twitter/X">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="mailto:info@mejacafepalu.com" class="social-btn email" rel="noopener noreferrer" aria-label="Email">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://taplink.cc/mejacafepalu" target="_blank" class="social-btn website" rel="noopener noreferrer" aria-label="Website">
+              <i class="fas fa-globe"></i>
+            </a>
+          </nav>
+        </div>
+      </div>
+      
+      <p class="copyright">&copy; 2025 MEJA CAFE PALU - Furniture Cafe Profesional</p>
   </footer>
 
   <!-- Floating WhatsApp Button -->
