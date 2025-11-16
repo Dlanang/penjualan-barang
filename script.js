@@ -1,425 +1,711 @@
 /**
- * MEJA CAFE PALU - Main JavaScript
- * Modular and maintainable code structure
+ * MEJA CAFE PALU - Main Application
+ * Clean Code & OOP Architecture
+ * @version 2.1
+ * @author Development Team
  */
 
-// ===================================
-// 1. CONFIGURATION & CONSTANTS
-// ===================================
-const CONFIG = {
-  SCROLL_THRESHOLD: 8,
-  ANIMATION_THRESHOLD: 0.1,
-  SMOOTH_SCROLL_DURATION: 300,
-  WHATSAPP_NUMBER: '6285220888840'
-};
+'use strict';
 
-// ===================================
-// 2. UTILITY FUNCTIONS
-// ===================================
-const Utils = {
-  formatMoney: (num) => 'Rp ' + (Number(num) || 0).toLocaleString('id-ID'),
-  
-  debounce: (func, wait) => {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
+// ============================================
+// CONFIGURATION
+// ============================================
+class AppConfig {
+  static SCROLL_THRESHOLD = 8;
+  static ANIMATION_THRESHOLD = 0.1;
+  static WHATSAPP_NUMBER = '6285220888840';
+  static DEBOUNCE_DELAY = 10;
+}
+
+// ============================================
+// UTILITIES
+// ============================================
+class Utils {
+  /**
+   * Format number to Indonesian Rupiah
+   * @param {number} amount - The amount to format
+   * @returns {string} Formatted currency string
+   */
+  static formatCurrency(amount) {
+    const numericAmount = Number(amount) || 0;
+    return `Rp ${numericAmount.toLocaleString('id-ID')}`;
+  }
+
+  /**
+   * Debounce function calls
+   * @param {Function} callback - Function to debounce
+   * @param {number} delay - Delay in milliseconds
+   * @returns {Function} Debounced function
+   */
+  static debounce(callback, delay) {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => callback.apply(this, args), delay);
     };
   }
-};
 
-// ===================================
-// 3. ANIMATION MODULE
-// ===================================
-const AnimationModule = {
+  /**
+   * Check if element exists in DOM
+   * @param {string} selector - CSS selector
+   * @returns {boolean}
+   */
+  static elementExists(selector) {
+    return document.querySelector(selector) !== null;
+  }
+
+  /**
+   * Safe query selector with error handling
+   * @param {string} selector - CSS selector
+   * @returns {HTMLElement|null}
+   */
+  static safeQuerySelector(selector) {
+    try {
+      return document.querySelector(selector);
+    } catch (error) {
+      console.error(`Error selecting element: ${selector}`, error);
+      return null;
+    }
+  }
+}
+
+// ============================================
+// BASE MODULE CLASS
+// ============================================
+class BaseModule {
+  constructor(name) {
+    this.name = name;
+    this.initialized = false;
+  }
+
+  /**
+   * Initialize module
+   * @abstract
+   */
   init() {
-    this.setupScrollAnimations();
-    this.setupSmoothScroll();
-    this.setupStickyNav();
-  },
+    throw new Error('init() must be implemented by subclass');
+  }
+
+  /**
+   * Log initialization status
+   * @param {boolean} success - Whether initialization was successful
+   */
+  logInitialization(success) {
+    const status = success ? '✅' : '❌';
+    console.log(`${status} ${this.name} ${success ? 'initialized' : 'failed'}`);
+    this.initialized = success;
+  }
+}
+
+// ============================================
+// ANIMATION MODULE
+// ============================================
+class AnimationController extends BaseModule {
+  constructor() {
+    super('AnimationController');
+    this.observer = null;
+    this.navElement = null;
+  }
+
+  init() {
+    try {
+      this.setupScrollAnimations();
+      this.setupSmoothScroll();
+      this.setupStickyNavigation();
+      this.logInitialization(true);
+    } catch (error) {
+      console.error('Animation initialization failed:', error);
+      this.logInitialization(false);
+    }
+  }
 
   setupScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
-      });
-    }, { threshold: CONFIG.ANIMATION_THRESHOLD });
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    if (elements.length === 0) return;
 
-    animatedElements.forEach((el, i) => {
-      el.style.setProperty('--animation-order', i % 4);
-      observer.observe(el);
+    this.observer = new IntersectionObserver(
+      this.handleIntersection.bind(this),
+      { threshold: AppConfig.ANIMATION_THRESHOLD }
+    );
+
+    elements.forEach((element, index) => {
+      element.style.setProperty('--animation-order', index % 4);
+      this.observer.observe(element);
     });
-  },
+  }
+
+  handleIntersection(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }
 
   setupSmoothScroll() {
-    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = anchor.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          });
-        }
+    const anchors = document.querySelectorAll('nav a[href^="#"]');
+    anchors.forEach(anchor => {
+      anchor.addEventListener('click', this.handleAnchorClick.bind(this));
+    });
+  }
+
+  handleAnchorClick(event) {
+    event.preventDefault();
+    const targetId = event.currentTarget.getAttribute('href');
+    const targetElement = document.querySelector(targetId);
+
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
-    });
-  },
-
-  setupStickyNav() {
-    const nav = document.querySelector('nav');
-    if (!nav) return;
-
-    const handleScroll = () => {
-      nav.classList.toggle('scrolled', window.scrollY > CONFIG.SCROLL_THRESHOLD);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', Utils.debounce(handleScroll, 10), { passive: true });
+    }
   }
-};
 
-// ===================================
-// 4. FILTER MODULE
-// ===================================
-const FilterModule = {
-  init() {
-    this.filterButtons = document.querySelectorAll('.filter-btn');
-    this.menuItems = document.querySelectorAll('.menu-item');
-    this.setupFilters();
-  },
+  setupStickyNavigation() {
+    this.navElement = Utils.safeQuerySelector('nav');
+    if (!this.navElement) return;
 
-  setupFilters() {
-    this.filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => this.handleFilterClick(btn));
-    });
-  },
+    const handleScroll = Utils.debounce(() => {
+      this.updateNavigationState();
+    }, AppConfig.DEBOUNCE_DELAY);
 
-  handleFilterClick(selectedBtn) {
-    // Update active state
-    this.filterButtons.forEach(btn => {
-      btn.classList.remove('active');
-      btn.setAttribute('aria-selected', 'false');
-    });
+    this.updateNavigationState();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  }
+
+  updateNavigationState() {
+    if (!this.navElement) return;
     
-    selectedBtn.classList.add('active');
-    selectedBtn.setAttribute('aria-selected', 'true');
-
-    // Filter items
-    const filter = selectedBtn.dataset.filter;
-    this.filterItems(filter);
-  },
-
-  filterItems(filter) {
-    this.menuItems.forEach(item => {
-      const shouldShow = filter === 'all' || item.dataset.category === filter;
-      item.style.display = shouldShow ? 'flex' : 'none';
-    });
+    const shouldBeScrolled = window.scrollY > AppConfig.SCROLL_THRESHOLD;
+    this.navElement.classList.toggle('scrolled', shouldBeScrolled);
   }
-};
+}
 
-// ===================================
-// 5. CART MODULE
-// ===================================
-const CartModule = {
-  cart: [],
+// ============================================
+// FILTER MODULE
+// ============================================
+class ProductFilter extends BaseModule {
+  constructor() {
+    super('ProductFilter');
+    this.filterButtons = [];
+    this.productItems = [];
+    this.activeFilter = 'all';
+  }
 
   init() {
-    this.initElements();
-    this.setupEventListeners();
-    this.updateUI();
-  },
+    try {
+      this.cacheElements();
+      this.attachEventListeners();
+      this.logInitialization(true);
+    } catch (error) {
+      console.error('Filter initialization failed:', error);
+      this.logInitialization(false);
+    }
+  }
 
-  initElements() {
-    this.cartToggle = document.getElementById('cart-toggle');
-    this.cartDropdown = document.querySelector('.cart-dropdown');
-    this.cartList = this.cartDropdown?.querySelector('.cart-list');
-    this.cartTotal = this.cartDropdown?.querySelector('.cart-total');
-    this.cartEmpty = this.cartDropdown?.querySelector('.cart-empty');
-    this.cartCount = document.querySelector('.cart-count');
-    this.clearBtn = this.cartDropdown?.querySelector('.cart-clear');
-    this.checkoutBtn = this.cartDropdown?.querySelector('.cart-checkout');
-  },
+  cacheElements() {
+    this.filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+    this.productItems = Array.from(document.querySelectorAll('.menu-item'));
+  }
 
-  setupEventListeners() {
+  attachEventListeners() {
+    this.filterButtons.forEach(button => {
+      button.addEventListener('click', () => this.handleFilterClick(button));
+    });
+  }
+
+  handleFilterClick(selectedButton) {
+    this.updateActiveButton(selectedButton);
+    this.activeFilter = selectedButton.dataset.filter;
+    this.filterProducts();
+  }
+
+  updateActiveButton(selectedButton) {
+    this.filterButtons.forEach(button => {
+      const isSelected = button === selectedButton;
+      button.classList.toggle('active', isSelected);
+      button.setAttribute('aria-selected', isSelected.toString());
+    });
+  }
+
+  filterProducts() {
+    this.productItems.forEach(item => {
+      const category = item.dataset.category;
+      const shouldDisplay = this.shouldDisplayItem(category);
+      item.style.display = shouldDisplay ? 'flex' : 'none';
+    });
+  }
+
+  shouldDisplayItem(category) {
+    return this.activeFilter === 'all' || category === this.activeFilter;
+  }
+}
+
+// ============================================
+// CART MODULE
+// ============================================
+class ShoppingCart extends BaseModule {
+  constructor() {
+    super('ShoppingCart');
+    this.items = [];
+    this.elements = {};
+  }
+
+  init() {
+    try {
+      this.cacheElements();
+      this.attachEventListeners();
+      this.render();
+      this.logInitialization(true);
+    } catch (error) {
+      console.error('Cart initialization failed:', error);
+      this.logInitialization(false);
+    }
+  }
+
+  cacheElements() {
+    this.elements = {
+      toggle: document.getElementById('cart-toggle'),
+      dropdown: Utils.safeQuerySelector('.cart-dropdown'),
+      list: Utils.safeQuerySelector('.cart-list'),
+      total: Utils.safeQuerySelector('.cart-total'),
+      empty: Utils.safeQuerySelector('.cart-empty'),
+      badge: Utils.safeQuerySelector('.cart-count'),
+      clearBtn: Utils.safeQuerySelector('.cart-clear'),
+      checkoutBtn: Utils.safeQuerySelector('.cart-checkout')
+    };
+  }
+
+  attachEventListeners() {
     // Toggle cart dropdown
-    this.cartToggle?.addEventListener('click', (e) => {
+    this.elements.toggle?.addEventListener('click', (e) => {
       e.stopPropagation();
-      const isExpanded = this.cartToggle.getAttribute('aria-expanded') === 'true';
-      this.cartToggle.setAttribute('aria-expanded', !isExpanded);
-      this.cartDropdown.classList.toggle('show');
+      this.toggleDropdown();
     });
 
-    // Close cart when clicking outside
+    // Close cart on outside click
     document.addEventListener('click', (e) => {
-      if (!this.cartToggle?.contains(e.target) && !this.cartDropdown?.contains(e.target)) {
-        this.cartToggle?.setAttribute('aria-expanded', 'false');
-        this.cartDropdown?.classList.remove('show');
-      }
+      this.handleOutsideClick(e);
     });
 
     // Add to cart buttons
-    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', (e) => {
         e.stopPropagation();
-        const menuItem = btn.closest('.menu-item');
-        this.addToCart(menuItem);
+        this.addItemFromButton(button);
       });
     });
 
-    // Clear cart
-    this.clearBtn?.addEventListener('click', () => this.clearCart());
+    // Cart actions
+    this.elements.clearBtn?.addEventListener('click', () => this.clear());
+    this.elements.checkoutBtn?.addEventListener('click', () => this.checkout());
+  }
 
-    // Checkout
-    this.checkoutBtn?.addEventListener('click', () => this.checkout());
-  },
+  toggleDropdown() {
+    const isExpanded = this.elements.toggle.getAttribute('aria-expanded') === 'true';
+    this.elements.toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+    this.elements.dropdown?.classList.toggle('show');
+  }
 
-  addToCart(menuItem) {
-    const itemData = {
-      name: menuItem.querySelector('h3').textContent,
-      price: 0, // Price will be discussed via WhatsApp
-      img: menuItem.querySelector('img').src,
-      qty: 1
-    };
-
-    const existingItem = this.cart.find(item => item.name === itemData.name);
+  handleOutsideClick(event) {
+    const isInsideCart = this.elements.toggle?.contains(event.target) ||
+                        this.elements.dropdown?.contains(event.target);
     
+    if (!isInsideCart) {
+      this.elements.toggle?.setAttribute('aria-expanded', 'false');
+      this.elements.dropdown?.classList.remove('show');
+    }
+  }
+
+  addItemFromButton(button) {
+    const productElement = button.closest('.menu-item');
+    if (!productElement) return;
+
+    const product = this.extractProductData(productElement);
+    this.addItem(product);
+  }
+
+  extractProductData(productElement) {
+    return {
+      name: productElement.querySelector('h3')?.textContent || 'Unknown',
+      price: 0,
+      image: productElement.querySelector('img')?.src || '',
+      quantity: 1
+    };
+  }
+
+  addItem(product) {
+    const existingItem = this.findItemByName(product.name);
+
     if (existingItem) {
-      existingItem.qty++;
+      existingItem.quantity++;
     } else {
-      this.cart.push(itemData);
+      this.items.push({ ...product });
     }
 
-    this.updateUI();
-  },
+    this.render();
+  }
 
-  removeFromCart(index) {
-    this.cart.splice(index, 1);
-    this.updateUI();
-  },
+  findItemByName(name) {
+    return this.items.find(item => item.name === name);
+  }
 
-  updateQuantity(index, change) {
-    if (this.cart[index]) {
-      this.cart[index].qty += change;
-      
-      if (this.cart[index].qty <= 0) {
-        this.removeFromCart(index);
-      } else {
-        this.updateUI();
-      }
+  updateQuantity(index, delta) {
+    if (!this.items[index]) return;
+
+    this.items[index].quantity += delta;
+
+    if (this.items[index].quantity <= 0) {
+      this.removeItem(index);
+    } else {
+      this.render();
     }
-  },
+  }
 
-  clearCart() {
+  removeItem(index) {
+    this.items.splice(index, 1);
+    this.render();
+  }
+
+  clear() {
     if (confirm('Hapus semua item dari keranjang?')) {
-      this.cart = [];
-      this.updateUI();
+      this.items = [];
+      this.render();
     }
-  },
+  }
 
   checkout() {
-    if (this.cart.length === 0) {
+    if (this.isEmpty()) {
       alert('Keranjang masih kosong!');
       return;
     }
 
     const message = this.generateWhatsAppMessage();
-    const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  },
+    const url = this.buildWhatsAppUrl(message);
+    window.open(url, '_blank');
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
 
   generateWhatsAppMessage() {
     let message = '*PESANAN FURNITURE CAFE*\n\n';
-    
-    this.cart.forEach((item, index) => {
+
+    this.items.forEach((item, index) => {
       message += `${index + 1}. ${item.name}\n`;
-      message += `   Jumlah: ${item.qty} unit\n\n`;
+      message += `   Jumlah: ${item.quantity} unit\n\n`;
     });
 
     message += '\nMohon info harga dan ketersediaan produk. Terima kasih!';
     return message;
-  },
-
-  updateUI() {
-    this.updateCartList();
-    this.updateCartBadge();
-    this.updateCartEmpty();
-  },
-
-  updateCartList() {
-    if (!this.cartList) return;
-
-    this.cartList.innerHTML = '';
-    
-    this.cart.forEach((item, index) => {
-      const li = document.createElement('li');
-      li.className = 'cart-item';
-      li.innerHTML = `
-        <img src="${item.img}" alt="${item.name}" class="cart-thumb" />
-        <span class="cart-item-name" title="Lihat detail">${item.name}</span>
-        <div class="cart-item-controls">
-          <button class="decrease" aria-label="Kurangi jumlah">-</button>
-          <span class="cart-item-qty">${item.qty}</span>
-          <button class="increase" aria-label="Tambah jumlah">+</button>
-        </div>
-        <span class="cart-item-price">${item.qty} unit</span>
-      `;
-
-      // Event listeners for quantity controls
-      li.querySelector('.increase').addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.updateQuantity(index, 1);
-      });
-
-      li.querySelector('.decrease').addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.updateQuantity(index, -1);
-      });
-
-      li.querySelector('.cart-item-name').addEventListener('click', (e) => {
-        e.stopPropagation();
-        alert(`Detail Produk:\n\n${item.name}\nJumlah: ${item.qty} unit\n\nHubungi kami untuk info harga!`);
-      });
-
-      this.cartList.appendChild(li);
-    });
-  },
-
-  updateCartBadge() {
-    if (!this.cartCount) return;
-    
-    const totalItems = this.cart.reduce((sum, item) => sum + item.qty, 0);
-    this.cartCount.textContent = totalItems;
-  },
-
-  updateCartEmpty() {
-    if (!this.cartEmpty) return;
-    
-    this.cartEmpty.style.display = this.cart.length === 0 ? 'block' : 'none';
   }
-};
 
-// ===================================
-// 6. IMAGE ZOOM MODULE
-// ===================================
-const ImageZoomModule = {
+  buildWhatsAppUrl(message) {
+    const encodedMessage = encodeURIComponent(message);
+    return `https://wa.me/${AppConfig.WHATSAPP_NUMBER}?text=${encodedMessage}`;
+  }
+
+  render() {
+    this.renderCartList();
+    this.updateBadge();
+    this.updateEmptyState();
+  }
+
+  renderCartList() {
+    if (!this.elements.list) return;
+
+    this.elements.list.innerHTML = '';
+
+    this.items.forEach((item, index) => {
+      const itemElement = this.createCartItemElement(item, index);
+      this.elements.list.appendChild(itemElement);
+    });
+  }
+
+  createCartItemElement(item, index) {
+    const li = document.createElement('li');
+    li.className = 'cart-item';
+    li.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" class="cart-thumb" />
+      <span class="cart-item-name" title="Lihat detail">${item.name}</span>
+      <div class="cart-item-controls">
+        <button class="decrease" aria-label="Kurangi jumlah">-</button>
+        <span class="cart-item-qty">${item.quantity}</span>
+        <button class="increase" aria-label="Tambah jumlah">+</button>
+      </div>
+      <span class="cart-item-price">${item.quantity} unit</span>
+    `;
+
+    this.attachItemEventListeners(li, item, index);
+    return li;
+  }
+
+  attachItemEventListeners(element, item, index) {
+    element.querySelector('.increase')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.updateQuantity(index, 1);
+    });
+
+    element.querySelector('.decrease')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.updateQuantity(index, -1);
+    });
+
+    element.querySelector('.cart-item-name')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.showItemDetails(item);
+    });
+  }
+
+  showItemDetails(item) {
+    const message = `Detail Produk:\n\n${item.name}\nJumlah: ${item.quantity} unit\n\nHubungi kami untuk info harga!`;
+    alert(message);
+  }
+
+  updateBadge() {
+    if (!this.elements.badge) return;
+
+    const totalQuantity = this.items.reduce((sum, item) => sum + item.quantity, 0);
+    this.elements.badge.textContent = totalQuantity.toString();
+  }
+
+  updateEmptyState() {
+    if (!this.elements.empty) return;
+
+    this.elements.empty.style.display = this.isEmpty() ? 'block' : 'none';
+  }
+}
+
+// ============================================
+// IMAGE ZOOM MODULE
+// ============================================
+class ImageZoom extends BaseModule {
+  constructor() {
+    super('ImageZoom');
+    this.elements = {};
+    this.isOpen = false;
+  }
+
   init() {
-    this.modal = document.getElementById('image-modal');
-    this.modalImg = document.getElementById('modal-img');
-    this.modalCaption = document.querySelector('.modal-caption');
-    this.closeBtn = document.querySelector('.modal-close');
+    try {
+      this.cacheElements();
+      if (!this.elements.modal) {
+        console.warn('Image zoom modal not found');
+        return;
+      }
+      this.attachEventListeners();
+      this.logInitialization(true);
+    } catch (error) {
+      console.error('ImageZoom initialization failed:', error);
+      this.logInitialization(false);
+    }
+  }
 
-    if (!this.modal) return;
+  cacheElements() {
+    this.elements = {
+      modal: document.getElementById('image-modal'),
+      image: document.getElementById('modal-img'),
+      caption: Utils.safeQuerySelector('.modal-caption'),
+      closeBtn: Utils.safeQuerySelector('.modal-close')
+    };
+  }
 
-    this.setupEventListeners();
-  },
-
-  setupEventListeners() {
+  attachEventListeners() {
     // Click on product images
     document.addEventListener('click', (e) => {
       if (e.target.classList.contains('menu-item-img')) {
-        this.openModal(e.target);
+        this.open(e.target);
       }
     });
 
     // Close button
-    this.closeBtn?.addEventListener('click', () => this.closeModal());
+    this.elements.closeBtn?.addEventListener('click', () => this.close());
 
-    // Click outside image
-    this.modal.addEventListener('click', (e) => {
-      if (e.target === this.modal) {
-        this.closeModal();
+    // Click outside
+    this.elements.modal?.addEventListener('click', (e) => {
+      if (e.target === this.elements.modal) {
+        this.close();
       }
     });
 
     // ESC key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.modal.classList.contains('show')) {
-        this.closeModal();
+      if (e.key === 'Escape' && this.isOpen) {
+        this.close();
       }
     });
-  },
-
-  openModal(imgElement) {
-    this.modal.classList.add('show');
-    this.modalImg.src = imgElement.src;
-    this.modalCaption.textContent = imgElement.alt;
-    document.body.style.overflow = 'hidden';
-  },
-
-  closeModal() {
-    this.modal.classList.remove('show');
-    document.body.style.overflow = 'auto';
   }
-};
 
-// ===================================
-// 7. FAQ MODULE
-// ===================================
-const FAQModule = {
+  open(imageElement) {
+    if (!this.elements.modal) return;
+
+    this.elements.modal.classList.add('show');
+    this.elements.image.src = imageElement.src;
+    this.elements.caption.textContent = imageElement.alt;
+    document.body.style.overflow = 'hidden';
+    this.isOpen = true;
+  }
+
+  close() {
+    if (!this.elements.modal) return;
+
+    this.elements.modal.classList.remove('show');
+    document.body.style.overflow = 'auto';
+    this.isOpen = false;
+  }
+}
+
+// ============================================
+// FAQ MODULE
+// ============================================
+class FAQAccordion extends BaseModule {
+  constructor() {
+    super('FAQAccordion');
+    this.faqItems = [];
+  }
+
   init() {
-    this.setupFAQToggles();
-  },
+    try {
+      this.cacheFAQItems();
+      this.attachEventListeners();
+      this.logInitialization(true);
+    } catch (error) {
+      console.error('FAQ initialization failed:', error);
+      this.logInitialization(false);
+    }
+  }
 
-  setupFAQToggles() {
-    document.querySelectorAll('.faq-item').forEach(item => {
-      item.addEventListener('toggle', function() {
-        const icon = this.querySelector('i.fa-chevron-down');
-        if (icon) {
-          icon.style.transform = this.open ? 'rotate(180deg)' : 'rotate(0deg)';
-        }
-      });
+  cacheFAQItems() {
+    this.faqItems = Array.from(document.querySelectorAll('.faq-item'));
+  }
+
+  attachEventListeners() {
+    this.faqItems.forEach(item => {
+      item.addEventListener('toggle', () => this.handleToggle(item));
     });
   }
-};
 
-// ===================================
-// 8. SMOOTH SCROLL LIBRARY (Lenis)
-// ===================================
-const SmoothScrollModule = {
+  handleToggle(item) {
+    const icon = item.querySelector('i.fa-chevron-down');
+    if (!icon) return;
+
+    const rotation = item.open ? '180deg' : '0deg';
+    icon.style.transform = `rotate(${rotation})`;
+  }
+}
+
+// ============================================
+// SMOOTH SCROLL MODULE
+// ============================================
+class SmoothScrollController extends BaseModule {
+  constructor() {
+    super('SmoothScrollController');
+    this.lenis = null;
+  }
+
   init() {
-    if (typeof Lenis === 'undefined') return;
+    try {
+      if (typeof Lenis === 'undefined') {
+        console.warn('Lenis library not loaded');
+        return;
+      }
 
-    const lenis = new Lenis({
+      this.initializeLenis();
+      this.logInitialization(true);
+    } catch (error) {
+      console.error('SmoothScroll initialization failed:', error);
+      this.logInitialization(false);
+    }
+  }
+
+  initializeLenis() {
+    this.lenis = new Lenis({
       lerp: 0.070,
       smoothWheel: true,
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+    this.startAnimationLoop();
+  }
+
+  startAnimationLoop() {
+    const animate = (time) => {
+      this.lenis.raf(time);
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  }
+}
+
+// ============================================
+// APPLICATION CONTROLLER
+// ============================================
+class Application {
+  constructor() {
+    this.modules = [];
+    this.initialized = false;
+  }
+
+  /**
+   * Register module for initialization
+   * @param {BaseModule} module - Module instance to register
+   */
+  registerModule(module) {
+    if (!(module instanceof BaseModule)) {
+      console.error('Module must extend BaseModule');
+      return;
     }
-    
-    requestAnimationFrame(raf);
+    this.modules.push(module);
   }
-};
 
-// ===================================
-// 9. MAIN INITIALIZATION
-// ===================================
+  /**
+   * Initialize all registered modules
+   */
+  async init() {
+    console.log('🪑 MEJA CAFE PALU - Starting initialization...');
+    console.log('━'.repeat(50));
+
+    try {
+      this.modules.forEach(module => {
+        module.init();
+      });
+
+      this.initialized = true;
+      console.log('━'.repeat(50));
+      console.log('✅ Application initialized successfully');
+    } catch (error) {
+      console.error('❌ Application initialization failed:', error);
+    }
+  }
+
+  /**
+   * Get initialization status
+   * @returns {boolean}
+   */
+  isInitialized() {
+    return this.initialized;
+  }
+}
+
+// ============================================
+// APPLICATION BOOTSTRAP
+// ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('🪑 MEJA CAFE PALU - Initializing...');
+  const app = new Application();
 
-  try {
-    // Initialize all modules
-    AnimationModule.init();
-    FilterModule.init();
-    CartModule.init();
-    ImageZoomModule.init();
-    FAQModule.init();
-    SmoothScrollModule.init();
+  // Register all modules
+  app.registerModule(new AnimationController());
+  app.registerModule(new ProductFilter());
+  app.registerModule(new ShoppingCart());
+  app.registerModule(new ImageZoom());
+  app.registerModule(new FAQAccordion());
+  app.registerModule(new SmoothScrollController());
 
-    console.log('✅ All modules initialized successfully');
-  } catch (error) {
-    console.error('❌ Initialization error:', error);
-  }
+  // Initialize application
+  app.init();
+
+  // Make app globally accessible for debugging
+  window.MejaCafePalu = app;
 });
