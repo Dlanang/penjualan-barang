@@ -1,6 +1,6 @@
-<div align="center">
-
 # 🪑 MEJA CAFE PALU
+
+<div align="center">
 
 **Professional Cafe Furniture E-Commerce Website**
 
@@ -15,7 +15,7 @@
 
 ## 📖 Overview
 
-**MEJA CAFE PALU** adalah website e-commerce modern yang mengkhususkan diri dalam furniture cafe di Sulawesi Tengah. Website ini dibangun dengan teknologi vanilla web (HTML5, CSS3, JavaScript) dengan fitur lengkap dan desain responsif untuk pengalaman belanja yang optimal.
+**MEJA CAFE PALU** adalah website e-commerce modern yang mengkhususkan diri dalam furniture cafe berkualitas di Sulawesi Tengah. Website ini dibangun dengan teknologi vanilla web (HTML5, CSS3, JavaScript) dengan fitur lengkap dan desain responsif untuk pengalaman belanja yang optimal.
 
 ### 🎯 Spesialisasi Produk
 - **Meja Cafe** - Berbagai model dan ukuran
@@ -23,28 +23,28 @@
 - **Furniture Set** - Complete cafe setup
 - **Custom Design** - Sesuai kebutuhan spesifik
 
-### ✨ Fitur Unggulan
+## ✨ Fitur Unggulan
 
-- 🪑 **Product Catalog** - Showcase interaktif dengan filter kategori
-- 🛒 **Shopping Cart** - Sistem keranjang dinamis dengan kalkulasi real-time  
-- 📱 **Mobile First** - Responsif sempurna di semua perangkat
-- 📸 **Instagram Gallery** - Carousel otomatis dengan navigasi touch
-- 💬 **WhatsApp Integration** - Order langsung via WhatsApp
-- 📍 **Google Maps** - Lokasi toko dengan navigasi GPS
-- 🎨 **Modern UI/UX** - Animasi AOS dan design premium
-- 🌐 **Social Media Hub** - Terintegrasi dengan semua platform
+| Category | Features |
+|----------|----------|
+| **🛒 E-Commerce** | Product Catalog, Dynamic Cart, WhatsApp Checkout |
+| **📱 Mobile** | Responsive Design, Touch Navigation |
+| **🎨 UI/UX** | Modern Animations, Smooth Scrolling |
+| **📞 Integration** | WhatsApp, Instagram, Google Maps |
 
 ## 🚀 Quick Start
 
 ```bash
 # Clone repository
-git clone https://github.com/Dlanang/penjualan-barang.git
+git clone 
 cd penjualan-barang
 
-# Start development server
+# Start development server (pilih salah satu)
 python3 -m http.server 8080
-# or
+# atau
 npx serve .
+# atau
+live-server .
 
 # Buka di browser
 open http://localhost:8080
@@ -67,45 +67,24 @@ open http://localhost:8080
 
 ```
 penjualan-barang/
-├── 📄 index.html              # Main page (365 lines)
-├── 🎨 style.css               # Styles (1,810+ lines)  
-├── ⚡ script.js               # JavaScript (1,314+ lines)
+├── 📄 index.html              # Main page
+├── 🎨 style.css               # Complete styling (1,356 lines)
+├── ⚡ script.js               # JavaScript functionality (716 lines)
+├── 📖 README.md               # Project documentation
+├── 📝 kata-kata-web.md        # Business contact data
 ├── 📋 harga.md                # Pricing documentation
-├── 📝 kata-kata-web.md        # Content guidelines
-├── 📂 assets2/                # Image assets
-│   ├── 🏠 logo/               # Brand logos
-│   ├── 🪑 meja/               # Table images
-│   ├── 🛋️  sofa/               # Sofa images
-│   ├── 📦 set/                # Furniture sets
-│   └── 💬 testimony/          # Customer reviews
-└── 🔤 font(Shabnam)/          # Custom fonts
+└── 📂 assets2/                # Images and assets
+    ├── 📂 logo/               # Brand logos
+    ├── 📂 meja/               # Table product images
+    ├── 📂 sofa/               # Sofa product images  
+    ├── 📂 set/                # Furniture set images
+    ├── 📂 testimony/          # Customer reviews
+    └── 🖼️ banner.jpg         # Hero background
 ```
-├── 🎨 style.css           # Complete styling (1,356 lines)
-├── ⚡ script.js           # JavaScript functionality (716 lines)
-├── 📖 README.md           # Project documentation
-├── 📝 kata-kata-web.md    # Business contact data
-└── 📂 assets2/            # Images and assets
-    ├── 📂 meja/           # Table product images
-    ├── 📂 set/            # Furniture set images  
-    ├── 📂 sofa/           # Sofa product images
-    ├── 📂 logo/           # Brand logos
-    └── 🖼️ banner.jpg     # Hero background
-```
-
-## 🛠️ Tech Stack
-
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white) | Latest | Semantic structure |
-| ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white) | Latest | Styling & animations |
-| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black) | ES6+ | Interactive functionality |
-| ![Font Awesome](https://img.shields.io/badge/Font_Awesome-339AF0?style=flat&logo=fontawesome&logoColor=white) | 6.5.1 | Icon library |
 
 ## 🎨 Design System
 
-<details>
-<summary><strong>🎨 Color Palette</strong></summary>
-
+### Color Palette
 ```css
 --primary-color: #ffffff    /* Pure white backgrounds */
 --secondary-color: #6f4e37  /* Rich brown for headers */
@@ -114,26 +93,16 @@ penjualan-barang/
 --background: #fdfaf6       /* Warm off-white */
 ```
 
-</details>
-
-<details>
-<summary><strong>📝 Typography</strong></summary>
-
+### Typography
 - **Headers**: Playfair Display (Elegant serif)
 - **Body**: Lora (Readable serif)  
 - **Icons**: Font Awesome 6.5.1
 
-</details>
-
-<details>
-<summary><strong>🎬 Animations</strong></summary>
-
+### Animations
 - **WhatsApp Button**: Pulse + Wiggle + Bounce (3 simultaneous)
 - **Product Cards**: Hover scale & shadow effects
 - **Cart Dropdown**: Slide-down with backdrop blur
 - **Navigation**: Scroll-triggered backdrop blur
-
-</details>
 
 ## 🎯 Fitur Utama
 
@@ -170,41 +139,7 @@ penjualan-barang/
 | **Sofa** | Rp 2.8M - 3.2M | Esty Premium, Gucci 2-Seater |
 | **Set** | Rp 1.9M - 2.4M | Coffee Table, Couple Rotan, Elinda |
 
-## ⚡ Performance
-
-- 🚀 **Load Time** - < 3 seconds (optimized images)
-- 📱 **Mobile Score** - 95+ (Google PageSpeed)
-- 🌐 **Cross-browser** - Modern browsers support
-- ♿ **Accessibility** - ARIA labels & semantic HTML
-
-## 🛠 Development
-
-### Prerequisites
-```bash
-# Web server (pilih salah satu)
-python3 -m http.server 8080
-npx serve .
-live-server .
-```
-
-### Local Development
-```bash
-# Clone & setup
-git clone https://github.com/Dlanang/penjualan-barang.git
-cd penjualan-barang
-
-# Start development
-open index.html
-# atau dengan server
-python3 -m http.server 8080
-```
-- 🔍 **Product Search** - Category-based filtering
-- 💬 **Direct Communication** - WhatsApp integration
-- 📍 **Store Locator** - Google Maps embed
-
 ## 📱 Responsive Design
-
-The website is optimized for all device sizes:
 
 | Device | Breakpoint | Layout |
 |--------|------------|--------|
@@ -213,73 +148,7 @@ The website is optimized for all device sizes:
 | 💻 **Tablet** | 768px - 1024px | Two columns |
 | 🖥️ **Desktop** | > 1024px | Full layout |
 
----
-
-## 📞 **Business Contact**
-
-📍 **Alamat Toko:**  
-Nabila Residen 2, Jl. Manunggal, Baliase  
-Kec. Marawola, Kab. Sigi, Sulawesi Tengah 94222
-
-📱 **WhatsApp:** [+62 852-2088-8840](https://wa.me/6285220888840)  
-🗺️ **Google Maps:** [Lihat Lokasi](https://www.google.com/maps/place/Meja+Cafe/@-0.9432431,119.8552128,17z)  
-🌐 **Website:** [taplink.cc/mejacafepalu](https://taplink.cc/mejacafepalu)
-
-### **🌐 Social Media**
-- 📸 [Instagram: @meja_cafe.plw](https://www.instagram.com/meja_cafe.plw)
-- 📘 [Facebook: mejacafepalu](https://www.facebook.com/mejacafepalu)
-- 🎵 [TikTok: @mejacafepalu](https://www.tiktok.com/@mejacafepalu)
-- 📺 [YouTube: @mejacafepalu](https://www.youtube.com/@mejacafepalu)
-
----
-
-## 🚀 **Development Setup**
-
-### **🔧 Local Installation**
-```bash
-# 1. Clone repository
-git clone https://github.com/Dlanang/penjualan-barang.git
-
-# 2. Navigate to project
-cd penjualan-barang
-
-# 3. Start local server (Python)
-python3 -m http.server 8080
-
-# 4. Open in browser
-# http://localhost:8080
-```
-
-### **📝 Development Commands**
-```bash
-# Check git status
-git status
-
-# Run on different port
-python3 -m http.server 5500
-
-# View file structure
-tree . -I 'node_modules|.git'
-
-# Check file sizes
-du -h *.css *.js *.html
-```
-
----
-
-## 🎯 **Performance Metrics**
-
-### **📊 Code Statistics**
-- **HTML**: ~300 lines (Semantic structure)
-- **CSS**: ~1,320 lines (Modern styling)
-- **JavaScript**: ~720 lines (Modular architecture)
-- **Images**: Optimized JPEG format
-- **Load Time**: <3 seconds on 3G
-- **Lighthouse Score**: 90+ (Performance)
-
-### **🔧 Optimizations**
-- ✅ Lazy loading for images
-## 📊 Performance
+## ⚡ Performance
 
 ### Code Statistics
 - **HTML**: 314 lines (Semantic structure)
@@ -369,5 +238,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ⭐ **Star this repo if it helped you!** ⭐
 
 </div>
- 
- 
+
+---
+
+**📋 Changelog**  
+*• README.md diperbarui dengan struktur yang lebih terorganisir*  
+*• Informasi teknis dan bisnis dipisahkan dengan jelas*  
+*• Menambahkan roadmap dan section kontribusi*
