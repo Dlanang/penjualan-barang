@@ -9,6 +9,8 @@
   <meta name="description" content="READY STOCK & COSTUM - Melayani pemesanan furniture cafe, set meja kursi & pembuatan cafe/outlet">
 
   <!-- Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/WebP" href="assets2/logo/logo.webp"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -49,12 +51,12 @@
 
     <div class="hero-text">
       <div class="hero-title-container">
-        <div class="hero-logo">
+        <div class="hero-logo" data-aos="zoom-in" data-aos-delay="300">
           <img src="assets2/logo/Meja_Cafe_LOGO.png" alt="Meja Cafe Palu Logo" />
         </div>
       </div>
-      <p>READY STOCK & COSTUM - Melayani pemesanan furniture cafe, set meja kursi & pembuatan cafe/outlet</p>
-      <div class="hero-cta">
+      <p data-aos="fade-up" data-aos-delay="600">READY STOCK & COSTUM - Melayani pemesanan furniture cafe, set meja kursi & pembuatan cafe/outlet</p>
+      <div class="hero-cta" data-aos="fade-up" data-aos-delay="900">
         <a href="https://wa.me/6285220888840?text=Halo%20MEJA%20CAFE%20PALU%2C%20saya%20tertarik%20dengan%20produk%20Anda" target="_blank" class="whatsapp-btn-hero" rel="noopener noreferrer">
           <i class="fab fa-whatsapp"></i>
           <span>Hubungi Kami via WhatsApp</span>
@@ -68,10 +70,10 @@
     <main>
         <!-- Product Catalog Section -->
         <section id="menu" class="menu-section">
-            <h2>Katalog Produk Kami</h2>
+            <h2 data-aos="fade-up">Katalog Produk Kami</h2>
             
             <!-- Product Filters -->
-            <div class="menu-filters" role="navigation" aria-label="Product filters">
+            <div class="menu-filters" role="navigation" aria-label="Product filters" data-aos="fade-up" data-aos-delay="200">
                 <button class="filter-btn active" data-filter="all">Semua</button>
                 <button class="filter-btn" data-filter="meja">Meja</button>
                 <button class="filter-btn" data-filter="sofa">Sofa</button>
@@ -191,7 +193,7 @@
     <!-- Instagram Gallery Section -->
     <section class="instagram-gallery-section" id="instagram-gallery">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header" data-aos="fade-up">
           <h2 class="section-title">
             <i class="fab fa-instagram"></i>
             Gallery Instagram Kami
@@ -203,7 +205,7 @@
         </div>
 
         <!-- Instagram Carousel -->
-        <div class="instagram-carousel-wrapper">
+        <div class="instagram-carousel-wrapper" data-aos="fade-up" data-aos-delay="300">
           <div class="carousel-container">
             <div class="instagram-carousel" id="instagram-carousel">
               <!-- Posts akan di-load dari JavaScript -->
@@ -344,8 +346,18 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/social-feed-api@1.1.3/dist/index.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="script.js"></script>
-  <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script> 
+  <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+  
+  <!-- Initialize AOS -->
+  <script>
+    AOS.init({
+      duration: 1200,
+      once: true,
+      offset: 100
+    });
+  </script>
 </body>
 </html>
 
